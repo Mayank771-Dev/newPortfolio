@@ -1,0 +1,508 @@
+:root {
+  color-scheme: light;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: #eeeeee;
+  color: #151515;
+  font-synthesis: none;
+  text-rendering: geometricPrecision;
+  -webkit-font-smoothing: antialiased;
+  --page: #eeeeee;
+  --ink: #131313;
+  --muted: #3f3f3f;
+  --grid: rgba(0, 0, 0, 0.09);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body,
+#root {
+  min-height: 100vh;
+  margin: 0;
+}
+
+body {
+  background: var(--page);
+  overflow-x: hidden;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.landing-page {
+  min-height: 100vh;
+  background-color: var(--page);
+  background-image:
+    linear-gradient(to right, transparent 0 13.05%, var(--grid) 13.05% calc(13.05% + 1px), transparent calc(13.05% + 1px) 37.95%, var(--grid) 37.95% calc(37.95% + 1px), transparent calc(37.95% + 1px) 62.75%, var(--grid) 62.75% calc(62.75% + 1px), transparent calc(62.75% + 1px) 87.6%, var(--grid) 87.6% calc(87.6% + 1px), transparent calc(87.6% + 1px)),
+    linear-gradient(to bottom, transparent 0 15.05%, var(--grid) 15.05% calc(15.05% + 1px), transparent calc(15.05% + 1px) 33.8%, var(--grid) 33.8% calc(33.8% + 1px), transparent calc(33.8% + 1px) 100%);
+  position: relative;
+}
+
+.site-header {
+  align-items: start;
+  display: grid;
+  grid-template-columns: minmax(160px, 1fr) auto minmax(160px, 1fr);
+  left: 0;
+  padding: 42px clamp(28px, 2.55vw, 52px) 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+  z-index: 3;
+}
+
+.brand-mark {
+  color: #4c4c4c;
+  font-size: clamp(17px, 1.22vw, 25px);
+  font-weight: 500;
+  letter-spacing: -0.03em;
+  line-height: 1;
+}
+
+.brand-mark span {
+  color: #2d2d2d;
+  font-weight: 750;
+}
+
+.site-nav {
+  display: flex;
+  gap: clamp(48px, 4.05vw, 82px);
+  justify-content: center;
+  transform: translateX(-4px);
+}
+
+.site-nav a,
+.availability {
+  color: #191919;
+  font-size: clamp(16px, 1.08vw, 22px);
+  font-weight: 650;
+  letter-spacing: -0.045em;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.availability {
+  align-items: center;
+  display: inline-flex;
+  gap: 13px;
+  justify-self: end;
+}
+
+.availability span {
+  display: inline-block;
+  font-family: Georgia, serif;
+  font-size: clamp(38px, 2.15vw, 48px);
+  font-weight: 400;
+  line-height: 0.46;
+  transform: rotate(22deg);
+}
+
+.hero-section {
+  min-height: 100vh;
+  overflow: hidden;
+  position: relative;
+}
+
+.hero-title {
+  align-items: baseline;
+  display: flex;
+  gap: clamp(0px, 0.14vw, 3px);
+  justify-content: center;
+  left: 50%;
+  letter-spacing: -0.082em;
+  line-height: 0.78;
+  margin: 0;
+  position: absolute;
+  top: 17.4%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  width: max-content;
+}
+
+.first-name {
+  display: inline-block;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(78px, 11.8vw, 242px);
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: -0.11em;
+  transform: scaleX(0.85);
+  transform-origin: right bottom;
+}
+
+.last-name {
+  display: inline-block;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: clamp(80px, 11.65vw, 238px);
+  font-weight: 900;
+  letter-spacing: -0.095em;
+  transform: scaleX(0.98);
+  transform-origin: left bottom;
+}
+
+.discipline {
+  color: #171717;
+  font-size: clamp(14px, 1.02vw, 21px);
+  font-weight: 760;
+  left: 69.6%;
+  letter-spacing: -0.052em;
+  line-height: 1;
+  margin: 0;
+  position: absolute;
+  top: 35.2%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+}
+
+.hero-dot {
+  background: #414141;
+  border-radius: 999px;
+  height: clamp(18px, 1.42vw, 29px);
+  left: 41.6%;
+  position: absolute;
+  top: 46.2%;
+  width: clamp(18px, 1.42vw, 29px);
+}
+
+.intro-block {
+  color: #171717;
+  left: 13.05%;
+  position: absolute;
+  top: 57.45%;
+  transform: translateY(-1px);
+}
+
+.intro-block .plus {
+  color: #8f8f8f;
+  font-family: Georgia, serif;
+  font-size: clamp(26px, 1.56vw, 34px);
+  font-weight: 300;
+  left: -26px;
+  line-height: 1;
+  position: absolute;
+  top: -29px;
+}
+
+.intro-block p {
+  font-size: clamp(20px, 1.22vw, 25px);
+  font-weight: 530;
+  letter-spacing: -0.043em;
+  line-height: 1.13;
+  margin: 0;
+}
+
+.intro-block em {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 0.83em;
+  font-style: italic;
+  letter-spacing: -0.08em;
+}
+
+.retro-mac {
+  height: clamp(330px, 37vw, 565px);
+  left: 50.2%;
+  opacity: 0.77;
+  position: absolute;
+  top: 60.9%;
+  transform: translateX(-50%);
+  width: clamp(238px, 22.6vw, 395px);
+}
+
+.mac-case {
+  background:
+    linear-gradient(90deg, rgba(255, 255, 255, 0.2), rgba(90, 95, 92, 0.16), rgba(255, 255, 255, 0.45)),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.92), rgba(232, 236, 234, 0.72) 54%, rgba(210, 216, 213, 0.58));
+  border: 1px solid rgba(116, 124, 121, 0.22);
+  border-radius: 17% 17% 9% 9% / 8% 8% 5% 5%;
+  box-shadow:
+    inset 16px 0 16px rgba(255, 255, 255, 0.44),
+    inset -16px 0 18px rgba(65, 76, 72, 0.16),
+    inset 0 -14px 16px rgba(94, 105, 101, 0.12),
+    0 14px 22px rgba(63, 66, 64, 0.08);
+  height: 62%;
+  left: 12%;
+  overflow: hidden;
+  position: absolute;
+  top: 0;
+  width: 76%;
+}
+
+.mac-top-glow {
+  background: rgba(255, 255, 255, 0.54);
+  border-radius: 999px;
+  filter: blur(10px);
+  height: 16%;
+  left: 6%;
+  position: absolute;
+  top: 1%;
+  width: 88%;
+}
+
+.mac-face {
+  background: #d2dad6;
+  border: 2px solid rgba(31, 42, 39, 0.62);
+  border-radius: 3%;
+  box-shadow: 0 0 0 5px rgba(208, 217, 214, 0.7);
+  height: 43%;
+  left: 16%;
+  overflow: hidden;
+  position: absolute;
+  top: 13%;
+  width: 68%;
+}
+
+.mac-toolbar {
+  align-items: center;
+  background: #b7bfbc;
+  border-bottom: 1px solid #343b39;
+  display: flex;
+  gap: 5%;
+  height: 12%;
+  padding: 0 6%;
+}
+
+.mac-toolbar span {
+  background: #222;
+  height: 2px;
+  width: 11%;
+}
+
+.mac-workspace {
+  display: grid;
+  grid-template-columns: 18% 1fr;
+  height: 66%;
+}
+
+.mac-tools {
+  background: #b6bfbb;
+  border-right: 1px solid #59625f;
+  display: grid;
+  gap: 2px;
+  grid-template-columns: repeat(2, 1fr);
+  padding: 3px;
+}
+
+.mac-tools i,
+.mac-palette i {
+  border: 1px solid rgba(20, 25, 24, 0.56);
+  display: block;
+}
+
+.mac-screen {
+  align-items: center;
+  background: #eff0ed;
+  display: flex;
+  justify-content: center;
+}
+
+.mac-screen span {
+  color: #050505;
+  font-family: "Brush Script MT", "Segoe Script", cursive;
+  font-size: clamp(34px, 4vw, 66px);
+  font-weight: 700;
+  letter-spacing: -0.08em;
+  line-height: 1;
+  transform: rotate(-5deg);
+}
+
+.mac-palette {
+  background: #bbc4c0;
+  border-top: 1px solid #59625f;
+  display: grid;
+  gap: 1px;
+  grid-template-columns: repeat(18, 1fr);
+  height: 22%;
+  padding: 3px 4px;
+}
+
+.mac-slot {
+  background: linear-gradient(180deg, rgba(70, 82, 78, 0.85), rgba(255, 255, 255, 0.3));
+  border-radius: 999px;
+  bottom: 16%;
+  box-shadow: 0 3px 0 rgba(255, 255, 255, 0.55);
+  height: 3%;
+  position: absolute;
+  right: 14%;
+  width: 23%;
+}
+
+.apple-mark {
+  border-radius: 4px;
+  bottom: 13%;
+  height: 8%;
+  left: 12%;
+  overflow: hidden;
+  position: absolute;
+  width: 10%;
+}
+
+.apple-mark .stripe {
+  display: block;
+  height: 14.5%;
+  width: 100%;
+}
+
+.apple-leaf {
+  background: #63b345;
+  border-radius: 80% 0;
+  display: block;
+  height: 18%;
+  margin-left: 42%;
+  transform: rotate(-28deg);
+  width: 33%;
+}
+
+.red { background: #e34a57; }
+.orange { background: #f58635; }
+.yellow { background: #f6d047; }
+.green { background: #55a84d; }
+.blue { background: #3b8ad8; }
+.violet { background: #8c59b7; }
+
+.keyboard {
+  background:
+    linear-gradient(90deg, rgba(255, 255, 255, 0.65), rgba(118, 128, 124, 0.18), rgba(255, 255, 255, 0.7)),
+    rgba(222, 227, 224, 0.62);
+  border: 1px solid rgba(116, 124, 121, 0.22);
+  border-radius: 14% 14% 4% 4% / 18% 18% 7% 7%;
+  bottom: 0;
+  display: grid;
+  gap: 2px;
+  grid-template-columns: repeat(11, 1fr);
+  height: 20%;
+  left: 9%;
+  padding: 5% 6%;
+  position: absolute;
+  width: 82%;
+}
+
+.keyboard i {
+  background: rgba(201, 209, 205, 0.65);
+  border: 1px solid rgba(104, 115, 110, 0.19);
+  border-radius: 5px;
+  box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.7);
+}
+
+.mouse-line {
+  border-bottom: 2px solid rgba(184, 190, 188, 0.38);
+  border-right: 2px solid rgba(184, 190, 188, 0.38);
+  border-radius: 0 0 30px 0;
+  bottom: 13%;
+  height: 16%;
+  position: absolute;
+  right: 1%;
+  width: 17%;
+}
+
+.below-fold {
+  min-height: 40vh;
+  padding: 8rem clamp(28px, 6vw, 120px);
+}
+
+.below-fold h2 {
+  font-size: clamp(40px, 8vw, 120px);
+  letter-spacing: -0.08em;
+  line-height: 0.9;
+  margin: 0;
+}
+
+@media (max-width: 980px) {
+  .site-header {
+    align-items: center;
+    gap: 24px;
+    grid-template-columns: 1fr auto;
+    padding-top: 28px;
+  }
+
+  .site-nav {
+    gap: 26px;
+    grid-column: 1 / -1;
+    grid-row: 2;
+    justify-content: start;
+    transform: none;
+  }
+
+  .hero-title {
+    top: 20%;
+  }
+
+  .discipline {
+    left: auto;
+    right: 28px;
+    top: 35.5%;
+    transform: none;
+  }
+
+  .intro-block {
+    left: 32px;
+    top: 56.5%;
+  }
+}
+
+@media (max-width: 720px) {
+  .landing-page {
+    background-image:
+      linear-gradient(to right, transparent 0 8%, var(--grid) 8% calc(8% + 1px), transparent calc(8% + 1px) 50%, var(--grid) 50% calc(50% + 1px), transparent calc(50% + 1px) 92%, var(--grid) 92% calc(92% + 1px), transparent calc(92% + 1px)),
+      linear-gradient(to bottom, transparent 0 15%, var(--grid) 15% calc(15% + 1px), transparent calc(15% + 1px) 36%, var(--grid) 36% calc(36% + 1px), transparent calc(36% + 1px) 100%);
+  }
+
+  .site-header {
+    padding-inline: 20px;
+  }
+
+  .availability {
+    gap: 8px;
+  }
+
+  .site-nav {
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  .hero-title {
+    flex-direction: column;
+    gap: 0;
+    left: 20px;
+    top: 19%;
+    transform: none;
+  }
+
+  .first-name,
+  .last-name {
+    font-size: clamp(70px, 19.5vw, 118px);
+    transform-origin: left bottom;
+  }
+
+  .discipline {
+    left: 20px;
+    right: auto;
+    top: 40.8%;
+  }
+
+  .hero-dot {
+    left: auto;
+    right: 34px;
+    top: 48%;
+  }
+
+  .intro-block {
+    left: 40px;
+    top: 55%;
+  }
+
+  .intro-block p {
+    font-size: clamp(18px, 5.4vw, 24px);
+  }
+
+  .retro-mac {
+    left: 50%;
+    top: 71%;
+    width: min(72vw, 310px);
+  }
+}
