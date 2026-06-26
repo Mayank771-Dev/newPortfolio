@@ -1,13 +1,43 @@
+import { useState } from 'react'
 import mayankCutout from './assets/mayank-cutout-transparent.png'
 
 const navItems = ['Works', 'About', 'Contact']
 
 function App() {
+  const [portraitLabel, setPortraitLabel] = useState({
+    isVisible: false,
+    x: 0,
+    y: 0,
+  })
+
+  const showPortraitLabel = (event) => {
+    setPortraitLabel({
+      isVisible: true,
+      x: event.clientX,
+      y: event.clientY,
+    })
+  }
+
+  const movePortraitLabel = (event) => {
+    setPortraitLabel((label) => ({
+      ...label,
+      x: event.clientX,
+      y: event.clientY,
+    }))
+  }
+
+  const hidePortraitLabel = () => {
+    setPortraitLabel((label) => ({
+      ...label,
+      isVisible: false,
+    }))
+  }
+
   return (
     <main className="landing-page">
       <header className="site-header">
         <a className="brand-mark" href="#home" aria-label="Mayank Mittal home">
-          mayank<span>.</span>mtl
+          mayank<span aria-hidden="true">*</span>mtl
         </a>
 
         <nav className="site-nav" aria-label="Primary navigation">
@@ -31,11 +61,10 @@ function App() {
         </h1>
 
         <p className="discipline">SaaS UX · Motion Design</p>
-        <div className="hero-dot" aria-hidden="true" />
 
         <div className="intro-block">
           <span className="plus" aria-hidden="true">
-            +
+            *
           </span>
           <p>
             I <em>design</em>, I code, I overthink
@@ -50,7 +79,7 @@ function App() {
 
         <div className="location-block">
           <span className="plus" aria-hidden="true">
-            +
+            *
           </span>
           <p>
 
@@ -71,7 +100,27 @@ function App() {
 </p>
         </div>
 
-        <img className="hero-portrait" src={mayankCutout} alt="Mayank Mittal" />
+        <div
+          className="hero-portrait-wrap"
+          aria-label="Mayank Mittal portrait"
+          onPointerEnter={showPortraitLabel}
+          onPointerLeave={hidePortraitLabel}
+          onPointerMove={movePortraitLabel}
+          tabIndex="0"
+        >
+          <img className="hero-portrait" src={mayankCutout} alt="Mayank Mittal" />
+        </div>
+
+        <span
+          className={`portrait-cursor-label${portraitLabel.isVisible ? ' is-visible' : ''}`}
+          style={{
+            left: `${portraitLabel.x}px`,
+            top: `${portraitLabel.y}px`,
+          }}
+          aria-hidden="true"
+        >
+          Dont touch okay!!
+        </span>
       </section>
 
       <section className="below-fold" id="works" aria-label="Works preview">
