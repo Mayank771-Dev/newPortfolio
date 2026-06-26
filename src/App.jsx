@@ -1,54 +1,6 @@
-const navItems = ['Works', 'About', 'Contact']
+import mayankCutout from './assets/mayank-cutout-transparent.png'
 
-function RetroMac() {
-  return (
-    <div className="retro-mac" aria-hidden="true">
-      <div className="mac-case">
-        <div className="mac-top-glow" />
-        <div className="mac-face">
-          <div className="mac-toolbar">
-            <span />
-            <span />
-            <span />
-            <span />
-            <span />
-          </div>
-          <div className="mac-workspace">
-            <div className="mac-tools">
-              {Array.from({ length: 16 }).map((_, index) => (
-                <i key={index} />
-              ))}
-            </div>
-            <div className="mac-screen">
-              <span>hello</span>
-            </div>
-          </div>
-          <div className="mac-palette">
-            {Array.from({ length: 18 }).map((_, index) => (
-              <i key={index} />
-            ))}
-          </div>
-        </div>
-        <div className="mac-slot" />
-        <div className="apple-mark">
-          <span className="apple-leaf" />
-          <span className="stripe red" />
-          <span className="stripe orange" />
-          <span className="stripe yellow" />
-          <span className="stripe green" />
-          <span className="stripe blue" />
-          <span className="stripe violet" />
-        </div>
-      </div>
-      <div className="keyboard">
-        {Array.from({ length: 44 }).map((_, index) => (
-          <i key={index} />
-        ))}
-      </div>
-      <div className="mouse-line" />
-    </div>
-  )
-}
+const navItems = ['Works', 'About', 'Contact']
 
 function App() {
   return (
@@ -86,17 +38,40 @@ function App() {
             +
           </span>
           <p>
-            Seasoned designer with <em>strengths</em>
+            I <em>design</em>, I code, I overthink
             <br />
-            in motion and interaction design.
+            the hover effects-usually with
             <br />
-            Currently <em>exploring</em> AI + Design
+            slow songs playing and a hazelnut
             <br />
-            Systems workflows
+            coffee getting <em>dangerously cold</em>.
           </p>
         </div>
 
-        <RetroMac />
+        <div className="location-block">
+          <span className="plus" aria-hidden="true">
+            +
+          </span>
+          <p>
+
+  Based in <em>Chandigarh</em>, turning rough ideas
+
+  <br />
+
+  into polished digital experiences.
+
+  <br />
+
+  Currently exploring where design,
+
+  <br />
+
+  code, and <em>curiosity collide</em>.
+
+</p>
+        </div>
+
+        <img className="hero-portrait" src={mayankCutout} alt="Mayank Mittal" />
       </section>
 
       <section className="below-fold" id="works" aria-label="Works preview">
