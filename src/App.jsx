@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import mayankCutout from './assets/mayank-cutout-transparent.png'
+import TerminalIdentity from './TerminalIdentity'
 
 const navItems = ['Works', 'About', 'Contact']
 
@@ -35,6 +36,13 @@ function App() {
 
   return (
     <main className="landing-page">
+      <div className="page-grid" aria-hidden="true">
+        <span className="page-grid-line" />
+        <span className="page-grid-line" />
+        <span className="page-grid-line" />
+        <span className="page-grid-line" />
+      </div>
+
       <header className="site-header">
         <a className="brand-mark" href="#home" aria-label="Mayank Mittal home">
           mayank<span aria-hidden="true">*</span>mtl
@@ -43,13 +51,24 @@ function App() {
         <nav className="site-nav" aria-label="Primary navigation">
           {navItems.map((item) => (
             <a key={item} href={`#${item.toLowerCase()}`}>
-              ({item})
+              <span className="nav-roll">
+                <span className="nav-roll-track">
+                  <span className="nav-roll-text">({item})</span>
+                  <span className="nav-roll-text" aria-hidden="true">
+                    ({item})
+                  </span>
+                </span>
+              </span>
             </a>
           ))}
         </nav>
 
-        <a className="availability" href="mailto:hello@mayank.design">
-          <span aria-hidden="true">*</span>
+        <a className="availability" href="mailto:mittalmayank1977@gmail.com">
+          <span className="availability-star" aria-hidden="true">
+            <svg viewBox="0 0 24 24" focusable="false">
+              <path d="M12 1v22M1 12h22M4.22 4.22l15.56 15.56M19.78 4.22 4.22 19.78" />
+            </svg>
+          </span>
           Open to work
         </a>
       </header>
@@ -60,20 +79,25 @@ function App() {
           <span className="last-name">Mittal</span>
         </h1>
 
-        <p className="discipline">SaaS UX · Motion Design</p>
+        <TerminalIdentity />
 
         <div className="intro-block">
           <span className="plus" aria-hidden="true">
             *
           </span>
           <p>
-            I <em>design</em>, I code, I overthink
-            <br />
-            the hover effects-usually with
-            <br />
-            slow songs playing and a hazelnut
-            <br />
-            coffee getting <em>dangerously cold</em>.
+            <span className="intro-line intro-line--lead">
+              I <em>design</em>, I code, I overthink
+            </span>
+            <span className="intro-line intro-line--middle">
+              the hover effects-usually with
+            </span>
+            <span className="intro-line intro-line--long">
+              slow songs playing and a hazelnut
+            </span>
+            <span className="intro-line">
+              coffee getting <em>dangerously cold</em>.
+            </span>
           </p>
         </div>
 
@@ -82,22 +106,19 @@ function App() {
             *
           </span>
           <p>
-
-  Based in <em>Chandigarh</em>, turning rough ideas
-
-  <br />
-
-  into polished digital experiences.
-
-  <br />
-
-  Currently exploring where design,
-
-  <br />
-
-  code, and <em>curiosity collide</em>.
-
-</p>
+            <span className="location-line">
+              <span className="location-spaced-word">Based in</span>
+              <em>Chandigarh</em>, turning rough
+            </span>
+            <span className="location-line">
+              <span className="location-spaced-word">ideas</span> into polished digital
+              experiences.
+            </span>
+            <span className="location-line">Currently exploring where design, code,</span>
+            <span className="location-line">
+              and <em>curiosity collide</em>.
+            </span>
+          </p>
         </div>
 
         <div
