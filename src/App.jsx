@@ -1,10 +1,11 @@
 import { useState } from 'react'
 import mayankCutout from './assets/mayank-cutout-transparent.png'
 import TerminalIdentity from './TerminalIdentity'
-
+import aboutPhoto from './assets/snap.jpeg'
 const navItems = ['Works', 'About', 'Contact']
 
 function App() {
+  const [isAboutExpanded, setIsAboutExpanded] = useState(false)
   const [portraitLabel, setPortraitLabel] = useState({
     isVisible: false,
     x: 0,
@@ -41,6 +42,8 @@ function App() {
         <span className="page-grid-line" />
         <span className="page-grid-line" />
         <span className="page-grid-line" />
+        <span className="page-grid-horizontal line-1" />
+        <span className="page-grid-horizontal line-2" />
       </div>
 
       <header className="site-header">
@@ -147,8 +150,58 @@ function App() {
       <section className="below-fold" id="works" aria-label="Works preview">
         <h2>Selected Works</h2>
       </section>
-      <section className="below-fold" id="about" aria-label="About preview">
-        <h2>About</h2>
+      <section className="about-section" id="about" aria-labelledby="about-title">
+        <span className="about-outline" aria-hidden="true">
+          About
+        </span>
+
+        <div className="about-image-slot">
+  <img src={aboutPhoto} alt="Mayank working on laptop" />
+</div>
+
+        <div className="about-copy">
+          <h2 id="about-title">About</h2>
+          <p>
+  I build websites that people enjoy using—not just looking at.
+  <br />
+  Blending thoughtful design with clean, scalable code, I create interactive
+  experiences that feel fast, intuitive, and memorable. Whether it's a landing
+  page, a portfolio, or a full-fledged web application, I love turning ideas
+  into polished digital products.
+</p>
+        </div>
+
+        <button
+          className="about-learn-more"
+          type="button"
+          aria-expanded={isAboutExpanded}
+          aria-controls="about-beyond-copy"
+          onClick={() => setIsAboutExpanded((isExpanded) => !isExpanded)}
+        >
+          <span className="nav-roll">
+            <span className="nav-roll-track">
+              <span className="nav-roll-text">(Beyond the Code)</span>
+              <span className="nav-roll-text" aria-hidden="true">
+                (Beyond the Code)
+              </span>
+            </span>
+          </span>
+        </button>
+
+        <div
+          className={`about-beyond-copy${isAboutExpanded ? ' is-open' : ''}`}
+          id="about-beyond-copy"
+        >
+          <p>
+            I believe the best digital experiences aren’t created by code alone—they’re
+            shaped by curiosity, patience, and countless small iterations. When I’m away
+            from my editor, you’ll usually find me exploring beautifully crafted
+            websites, collecting inspiration on Pinterest, watching films, or
+            discovering music from every genre imaginable. I value quiet moments just as
+            much as creative ones—whether that’s playing a game of chess or sitting in a
+            peaceful garden with an iced coffee, letting new ideas slowly take shape.
+          </p>
+        </div>
       </section>
       <section className="below-fold" id="contact" aria-label="Contact preview">
         <h2>Contact</h2>
