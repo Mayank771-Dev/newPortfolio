@@ -1,10 +1,11 @@
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import mayankCutout from './assets/mayank-cutout-transparent.png'
 import TerminalIdentity from './TerminalIdentity'
-
+import aboutPhoto from './assets/snap.jpeg'
 const navItems = ['Works', 'About', 'Contact']
 
 function App() {
+  const [isAboutExpanded, setIsAboutExpanded] = useState(false)
   const [portraitLabel, setPortraitLabel] = useState({
     isVisible: false,
     x: 0,
@@ -34,6 +35,9 @@ function App() {
     }))
   }
 
+  const aboutSectionRef = useRef(null)
+  const contactSectionRef = useRef(null)
+
   return (
     <main className="landing-page">
       <div className="page-grid" aria-hidden="true">
@@ -41,8 +45,11 @@ function App() {
         <span className="page-grid-line" />
         <span className="page-grid-line" />
         <span className="page-grid-line" />
+        <span className="page-grid-horizontal line-1" />
+        <span className="page-grid-horizontal line-2" />
       </div>
 
+      <div className="page-content">
       <header className="site-header">
         <a className="brand-mark" href="#home" aria-label="Mayank Mittal home">
           mayank<span aria-hidden="true">*</span>mtl
@@ -147,11 +154,128 @@ function App() {
       <section className="below-fold" id="works" aria-label="Works preview">
         <h2>Selected Works</h2>
       </section>
-      <section className="below-fold" id="about" aria-label="About preview">
-        <h2>About</h2>
+      <section
+        ref={aboutSectionRef}
+        className="about-section"
+        id="about"
+        aria-labelledby="about-title"
+      >
+        <span className="about-outline" aria-hidden="true">
+          About
+        </span>
+
+        <div className="about-image-slot">
+  <img src={aboutPhoto} alt="Mayank working on laptop" />
+</div>
+
+        <div className="about-copy">
+          <h2 id="about-title">About</h2>
+          <p>
+  I build websites that people enjoy using—not just looking at.
+  <br />
+  Blending thoughtful design with clean, scalable code, I create interactive
+  experiences that feel fast, intuitive, and memorable. Whether it's a landing
+  page, a portfolio, or a full-fledged web application, I love turning ideas
+  into polished digital products.
+</p>
+        </div>
+
+        <button
+          className="about-learn-more"
+          type="button"
+          aria-expanded={isAboutExpanded}
+          aria-controls="about-beyond-copy"
+          onClick={() => setIsAboutExpanded((isExpanded) => !isExpanded)}
+        >
+          <span className="nav-roll">
+            <span className="nav-roll-track">
+              <span className="nav-roll-text">(Beyond the Code)</span>
+              <span className="nav-roll-text" aria-hidden="true">
+                (Beyond the Code)
+              </span>
+            </span>
+          </span>
+        </button>
+
+        <div
+          className={`about-beyond-copy${isAboutExpanded ? ' is-open' : ''}`}
+          id="about-beyond-copy"
+        >
+          <p>
+            I believe the best digital experiences aren’t created by code alone—they’re
+            shaped by curiosity, patience, and countless small iterations. When I’m away
+            from my editor, you’ll usually find me exploring beautifully crafted
+            websites, collecting inspiration on Pinterest, watching films, or
+            discovering music from every genre imaginable. I value quiet moments just as
+            much as creative ones—whether that’s playing a game of chess or sitting in a
+            peaceful garden with an iced coffee, letting new ideas slowly take shape.
+          </p>
+        </div>
       </section>
-      <section className="below-fold" id="contact" aria-label="Contact preview">
-        <h2>Contact</h2>
+      </div>
+      <section
+        ref={contactSectionRef}
+        className="contact-section"
+        id="contact"
+        aria-labelledby="contact-title"
+      >
+        <div className="contact-copy">
+          <p className="contact-kicker">/ Contact me</p>
+          <h2 id="contact-title">Let's talk</h2>
+
+          <div className="contact-details" aria-label="Contact details">
+            <div className="contact-detail-group">
+              <p className="contact-label">/ General enquiries</p>
+              <a href="mailto:mittalmayank1977@gmail.com">mittalmayank1977@gmail.com</a>
+            </div>
+
+            <div className="contact-detail-group">
+              <p className="contact-label">/ Location</p>
+              <p>
+                Chandigarh, India
+                <br />
+                Available for freelance projects,
+                <br />
+                collaborations, and curious ideas.
+              </p>
+            </div>
+
+            <div className="contact-socials" aria-label="Social links">
+              <p className="contact-label">/ Socials</p>
+              <div className="contact-social-links">
+                <a href="https://github.com/Mayank771-Dev" target="_blank" rel="noreferrer">
+                  GitHub
+                </a>
+                <a href="https://www.linkedin.com/in/mayank-mittal-4ba08528b/" target="_blank" rel="noreferrer">
+                  LinkedIn
+                </a>
+                <a href="https://www.instagram.com/mayankmittal261/" target="_blank" rel="noreferrer">
+                  Instagram
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <div className="contact-resume-actions">
+            <a href="https://drive.google.com/file/d/1hvvDhArFioGzD1q-reanz4nmJm_UDAGR/view?usp=sharing" target="_blank" rel="noreferrer">
+              <span className="nav-roll">
+                <span className="nav-roll-track">
+                  <span className="nav-roll-text">The Story So Far</span>
+                  <span className="nav-roll-text" aria-hidden="true">
+                    The Story So Far
+                  </span>
+                </span>
+              </span>
+            </a>
+          </div>
+        </div>
+
+        <figure className="contact-image-card" aria-label="Portfolio memory card">
+          <figcaption>
+            <span>Memories</span>
+            <span>Chandigarh, IN</span>
+          </figcaption>
+        </figure>
       </section>
     </main>
   )
