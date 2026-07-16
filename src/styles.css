@@ -117,6 +117,11 @@ a {
   z-index: 3;
 }
 
+.site-header.is-scroll-locked {
+  position: absolute;
+  top: var(--header-lock-top);
+}
+
 .brand-mark {
   color: #646464;
   display: inline-flex;
@@ -650,15 +655,18 @@ a {
 .contact-section {
   --contact-card-left: calc(100vw - var(--contact-image-right) - var(--contact-image-width));
   --contact-image-height: clamp(430px, 68vh, 720px);
-  --contact-image-right: 14vw;
+  --contact-image-right: 14.5vw;
   --contact-image-width: min(40vw, 680px);
   --contact-padding-top: clamp(72px, 6.4vw, 104px);
+  --contact-footer-height: clamp(42px, 4.8vh, 56px);
+  --contact-footer-space: clamp(52px, 6vh, 84px);
+  --contact-resume-bottom: clamp(24px, 2vw, 48px);
   --contact-title-left: 45vw;
   --contact-title-overlap-stroke: rgba(255, 255, 255, 0.78);
   background: transparent;
-  min-height: 100svh;
+  min-height: calc(100svh + var(--contact-footer-space));
   overflow: hidden;
-  padding: var(--contact-padding-top) clamp(8px, 0.8vw, 16px) 0;
+  padding: var(--contact-padding-top) clamp(8px, 0.8vw, 16px) var(--contact-footer-space);
   position: relative;
   z-index: 1;
 }
@@ -682,13 +690,13 @@ a {
   position: absolute;
   z-index: 1;
   transform: translateY(-16px);
-  left: clamp(110px, 11.5vw, 180px);
+  left: clamp(130px, 13vw, 210px);
 }
 
 .contact-copy h2 {
   color: transparent;
   font-family: "Instrument Serif", Georgia, serif;
-  font-size: clamp(112px, 15.9vw, 300px);
+  font-size: clamp(96px, 13.8vw, 260px);
   font-style: italic;
   font-weight: 400;
   left: var(--contact-title-left);
@@ -712,7 +720,7 @@ a {
 .contact-details {
   display: grid;
   gap: clamp(34px, 4.8vh, 58px);
-  left: clamp(110px, 11.5vw, 180px);
+  left: clamp(130px, 13vw, 210px);
   position: absolute;
   top: clamp(360px, 47vh, 455px);
   width: min(32vw, 500px);
@@ -766,10 +774,11 @@ a {
 /* Contact resume CTA */
 
 .contact-resume-actions {
-  bottom: clamp(24px, 2vw, 48px);
   display: flex;
-  left: clamp(110px, 11.5vw, 180px);
+  left: clamp(130px, 13vw, 210px);
   position: absolute;
+  top: calc(100svh - var(--contact-resume-bottom));
+  transform: translateY(-100%);
   z-index: 2;
 }
 
@@ -798,7 +807,6 @@ a {
   background:
     linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(0, 0, 0, 0.1)),
     #d0d0d0;
-  bottom: 0;
   filter: grayscale(1);
   height: var(--contact-image-height);
   isolation: isolate;
@@ -806,6 +814,7 @@ a {
   overflow: hidden;
   position: absolute;
   right: var(--contact-image-right);
+  top: calc(100svh - var(--contact-image-height));
   width: var(--contact-image-width);
 }
 
@@ -835,7 +844,7 @@ a {
   color: transparent;
   content: "Let's talk";
   font-family: "Instrument Serif", Georgia, serif;
-  font-size: clamp(112px, 15.9vw, 300px);
+  font-size: clamp(96px, 13.8vw, 260px);
   font-style: italic;
   font-weight: 400;
   left: calc(var(--contact-title-left) - var(--contact-card-left));
@@ -871,6 +880,37 @@ a {
   position: absolute;
   right: 0;
   z-index: 3;
+}
+
+.contact-footer {
+  align-items: center;
+  background: #050505;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-bottom: 0;
+  border-radius: 0;
+  bottom: 0;
+  color: rgba(255, 255, 255, 0.82);
+  display: flex;
+  height: var(--contact-footer-height);
+  justify-content: center;
+  left: 0;
+  position: absolute;
+  right: 0;
+  z-index: 4;
+}
+
+.contact-footer p {
+  font-family: "Space Grotesk", Inter, ui-sans-serif, system-ui, sans-serif;
+  font-size: clamp(14px, 1vw, 20px);
+  font-weight: 500;
+  letter-spacing: -0.035em;
+  line-height: 1;
+  margin: 0;
+  text-align: center;
+}
+
+.footer-credit em {
+  font-style: normal;
 }
 
 /* ==========================================================================

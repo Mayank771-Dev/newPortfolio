@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import mayankCutout from './assets/mayank-cutout-transparent.png'
 import TerminalIdentity from './TerminalIdentity'
 import aboutPhoto from './assets/snap.jpeg'
@@ -6,6 +6,8 @@ import interfaceStudy from './assets/work-interface-study.png'
 import dashboardStudy from './assets/work-dashboard-study.png'
 
 const navItems = ['Works', 'About', 'Contact']
+
+const HEADER_LOCK_EARLY_OFFSET = 40
 
 const resumeUrl =
   'https://drive.google.com/file/d/1hvvDhArFioGzD1q-reanz4nmJm_UDAGR/view?usp=sharing'
@@ -57,12 +59,15 @@ function RollText({ children }) {
 
 function App() {
   const [isAboutExpanded, setIsAboutExpanded] = useState(false)
+  const [headerLockTop, setHeaderLockTop] = useState(null)
   const [portraitLabel, setPortraitLabel] = useState({
     isVisible: false,
     x: 0,
     y: 0,
   })
 
+  const headerRef = useRef(null)
+  const aboutImageRef = useRef(null)
   const aboutSectionRef = useRef(null)
   const contactSectionRef = useRef(null)
 
@@ -89,6 +94,57 @@ function App() {
     }))
   }
 
+  useEffect(() => {
+    let frameId = 0
+
+    const updateHeaderLock = () => {
+      if (frameId) {
+        window.cancelAnimationFrame(frameId)
+      }
+
+      frameId = window.requestAnimationFrame(() => {
+        frameId = 0
+
+        const header = headerRef.current
+        const aboutImage = aboutImageRef.current
+        const aboutSection = aboutSectionRef.current
+
+        if (!header || !aboutSection) {
+          setHeaderLockTop(null)
+          return
+        }
+
+        const stopTarget = aboutImage || aboutSection
+        const stopTargetBottom = window.scrollY + stopTarget.getBoundingClientRect().bottom
+        const nextLockTop = Math.max(
+          0,
+          Math.round(stopTargetBottom - header.offsetHeight - HEADER_LOCK_EARLY_OFFSET),
+        )
+        const shouldLockHeader = window.scrollY >= nextLockTop
+
+        setHeaderLockTop((currentLockTop) => {
+          const resolvedLockTop = shouldLockHeader ? nextLockTop : null
+          return currentLockTop === resolvedLockTop ? currentLockTop : resolvedLockTop
+        })
+      })
+    }
+
+    updateHeaderLock()
+    window.addEventListener('scroll', updateHeaderLock, { passive: true })
+    window.addEventListener('resize', updateHeaderLock)
+
+    return () => {
+      if (frameId) {
+        window.cancelAnimationFrame(frameId)
+      }
+
+      window.removeEventListener('scroll', updateHeaderLock)
+      window.removeEventListener('resize', updateHeaderLock)
+    }
+  }, [])
+
+  const isHeaderLocked = headerLockTop !== null
+
   return (
     <main className="landing-page">
       <div className="page-grid" aria-hidden="true">
@@ -101,7 +157,11 @@ function App() {
       </div>
 
       <div className="page-content">
-        <header className="site-header">
+        <header
+          ref={headerRef}
+          className={`site-header${isHeaderLocked ? ' is-scroll-locked' : ''}`}
+          style={isHeaderLocked ? { '--header-lock-top': `${headerLockTop}px` } : undefined}
+        >
           <a className="brand-mark" href="#home" aria-label="Mayank Mittal home">
             mayank<span aria-hidden="true">*</span>mtl
           </a>
@@ -237,7 +297,7 @@ function App() {
             About
           </span>
 
-          <div className="about-image-slot">
+          <div className="about-image-slot" ref={aboutImageRef}>
             <img src={aboutPhoto} alt="Mayank working on laptop" />
           </div>
 
@@ -333,6 +393,12 @@ function App() {
             <span>Chandigarh, IN</span>
           </figcaption>
         </figure>
+
+        <footer className="contact-footer">
+          <p className="footer-credit">
+            Thanks for stopping by. Made with love 🤍 by Mayank Mittal
+          </p>
+        </footer>
       </section>
     </main>
   )
