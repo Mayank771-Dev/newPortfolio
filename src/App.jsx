@@ -258,7 +258,7 @@ function App() {
         <section className="works-section" id="works" aria-labelledby="works-title">
           <div className="works-heading-stage">
             <span className="works-outline" aria-hidden="true">
-              Selected.
+              Selected
             </span>
             <div className="works-heading">
               <p>2022-2025</p>
