@@ -157,9 +157,8 @@ a {
 .site-nav a,
 .availability {
   color: #191919;
-  font-family: "Space Grotesk", Inter, ui-sans-serif, system-ui, sans-serif;
   font-size: clamp(16px, 1.08vw, 22px);
-  font-weight: 100;
+  font-weight: 400;
   letter-spacing: -0.045em;
   line-height: 1;
   white-space: nowrap;
@@ -534,6 +533,7 @@ a {
   justify-content: center;
   min-height: 61vh;
   position: relative;
+  transform: translateY(-2vh);
 }
 
 .works-outline {
@@ -586,6 +586,17 @@ a {
   gap: clamp(28px, 4.8vw, 92px);
   grid-template-columns: repeat(2, minmax(0, 1fr));
   padding: clamp(34px, 3vw, 58px) 13.35vw clamp(100px, 10vw, 180px);
+  position: relative;
+}
+
+.works-grid::after {
+  background: var(--grid);
+  bottom: clamp(80px, 6rem + 2vw, 130px);
+  content: "";
+  height: 1px;
+  left: 0;
+  position: absolute;
+  right: 0;
 }
 
 .work-card {
@@ -620,6 +631,10 @@ a {
   padding-top: clamp(12px, 1.1vw, 20px);
 }
 
+.work-title-copy {
+  transform: translateY(-4px);
+}
+
 .work-index,
 .work-meta {
   color: #4b4b4b;
@@ -632,12 +647,21 @@ a {
 }
 
 .work-card h3 {
-  font-family: "Space Grotesk", Inter, ui-sans-serif, system-ui, sans-serif;
-  font-size: clamp(20px, 1.7vw, 34px);
+  display: inline-block;
+  font-size: 16px;
   font-weight: 500;
-  letter-spacing: 0;
   line-height: 1;
-  margin: 7px 0 0;
+  margin: 0;
+}
+
+.work-description {
+  color: #666666;
+  font-family: "Inter", sans-serif;
+  font-size: 17px;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  line-height: 1.6;
+  margin: 3px 0 0;
 }
 
 .work-meta {

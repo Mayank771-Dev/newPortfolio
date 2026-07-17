@@ -29,14 +29,16 @@ const socialLinks = [
 
 const selectedWorks = [
   {
-    title: 'Interface Study',
+    title: 'Email Emily',
+    description: 'AI email builder for advancement professionals',
     discipline: 'Design + Development',
     year: '2025',
     image: interfaceStudy,
     alt: 'Layered grayscale browser interface mockups',
   },
   {
-    title: 'Dashboard Study',
+    title: 'Navigation Redesign',
+    description: 'Designing SaaS navigation with scalable information architecture',
     discipline: 'Product Design + Frontend',
     year: '2025',
     image: dashboardStudy,
@@ -267,20 +269,16 @@ function App() {
           </div>
 
           <div className="works-grid">
-            {selectedWorks.map((project, index) => (
+            {selectedWorks.map((project) => (
               <article className="work-card" key={project.title}>
                 <figure className="work-visual">
                   <img src={project.image} alt={project.alt} />
                 </figure>
                 <div className="work-card-details">
-                  <div>
-                    <p className="work-index">/{String(index + 1).padStart(2, '0')}</p>
+                  <div className="work-title-copy">
                     <h3>{project.title}</h3>
+                    <p className="work-description">{project.description}</p>
                   </div>
-                  <p className="work-meta">
-                    {project.discipline}
-                    <span>{project.year}</span>
-                  </p>
                 </div>
               </article>
             ))}
