@@ -58,6 +58,7 @@ function RollText({ children }) {
 function App() {
   const [isAboutExpanded, setIsAboutExpanded] = useState(false)
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [isHeroNameReady, setIsHeroNameReady] = useState(false)
   const [workCursorLabel, setWorkCursorLabel] = useState({
     isVisible: false,
     x: 0,
@@ -90,6 +91,29 @@ function App() {
       isVisible: false,
     }))
   }
+
+  useEffect(() => {
+    let isActive = true
+
+    const revealHeroName = () => {
+      if (isActive) {
+        setIsHeroNameReady(true)
+      }
+    }
+
+    if (!document.fonts?.load) {
+      revealHeroName()
+      return () => {
+        isActive = false
+      }
+    }
+
+    document.fonts.load('400 300px "Kalam"', 'मयंक').then(revealHeroName, revealHeroName)
+
+    return () => {
+      isActive = false
+    }
+  }, [])
 
   useEffect(() => {
     if (!isMenuOpen) {
@@ -169,10 +193,16 @@ function App() {
 
         <section className="hero-section" id="home" aria-labelledby="hero-name">
           <div className="hero-copy-panel">
-            <h1 className="hero-name" id="hero-name" lang="hi" aria-label="मयंक">
+            <h1
+              className={`hero-name${isHeroNameReady ? ' is-ready' : ''}`}
+              id="hero-name"
+              lang="hi"
+              aria-label="मयंक"
+            >
               <svg
                 className="hero-name-svg"
                 viewBox="0 0 960 360"
+                opacity={isHeroNameReady ? 1 : 0}
                 focusable="false"
                 aria-hidden="true"
               >
@@ -189,11 +219,13 @@ function App() {
                     <path
                       className="hero-name-mask-stroke hero-name-mask-stroke--main"
                       d="M38 292 C70 148 132 58 244 82 C304 96 258 236 174 294 C262 260 312 92 448 92 C502 98 454 242 360 294 C452 264 508 70 602 82 C654 94 610 232 538 282 C630 242 706 66 886 98 C930 112 872 250 758 294"
+                      opacity="0"
                       pathLength="1"
                     />
                     <path
                       className="hero-name-mask-stroke hero-name-mask-stroke--headline"
                       d="M72 88 C302 68 606 69 892 90"
+                      opacity="0"
                       pathLength="1"
                     />
                     <rect
@@ -201,6 +233,7 @@ function App() {
                       width="960"
                       height="360"
                       fill="white"
+                      opacity="0"
                     />
                   </mask>
                 </defs>
@@ -336,7 +369,6 @@ function App() {
         aria-labelledby="contact-title"
       >
         <div className="contact-copy">
-          <p className="contact-kicker">/ Contact me</p>
           <h2 id="contact-title">Let's talk</h2>
 
           <div className="contact-details" aria-label="Contact details">
