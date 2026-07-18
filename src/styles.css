@@ -397,7 +397,7 @@ a {
   font-weight: 500;
   grid-template-columns: 1fr 1.4fr 1fr;
   left: clamp(24px, 2.5vw, 50px);
-  letter-spacing: 0;
+  letter-spacing: 0.02em;
   line-height: 1.15;
   position: absolute;
   right: clamp(24px, 2.5vw, 50px);
