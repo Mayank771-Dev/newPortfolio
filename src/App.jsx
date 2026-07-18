@@ -1,13 +1,9 @@
 import { useEffect, useRef, useState } from 'react'
-import mayankCutout from './assets/mayank-cutout-transparent.png'
-import TerminalIdentity from './TerminalIdentity'
 import aboutPhoto from './assets/snap.jpeg'
 import interfaceStudy from './assets/work-interface-study.png'
 import dashboardStudy from './assets/work-dashboard-study.png'
 
-const navItems = ['Works', 'About', 'Contact']
-
-const HEADER_LOCK_EARLY_OFFSET = 40
+const navItems = ['Home', 'Works', 'About', 'Contact']
 
 const resumeUrl =
   'https://drive.google.com/file/d/1hvvDhArFioGzD1q-reanz4nmJm_UDAGR/view?usp=sharing'
@@ -61,16 +57,15 @@ function RollText({ children }) {
 
 function App() {
   const [isAboutExpanded, setIsAboutExpanded] = useState(false)
-  const [headerLockTop, setHeaderLockTop] = useState(null)
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [workCursorLabel, setWorkCursorLabel] = useState({
     isVisible: false,
     x: 0,
     y: 0,
   })
 
-  const headerRef = useRef(null)
-  const aboutImageRef = useRef(null)
-  const aboutSectionRef = useRef(null)
+  const menuRef = useRef(null)
+  const menuButtonRef = useRef(null)
   const contactSectionRef = useRef(null)
 
   const showWorkCursorLabel = (event) => {
@@ -97,55 +92,31 @@ function App() {
   }
 
   useEffect(() => {
-    let frameId = 0
-
-    const updateHeaderLock = () => {
-      if (frameId) {
-        window.cancelAnimationFrame(frameId)
-      }
-
-      frameId = window.requestAnimationFrame(() => {
-        frameId = 0
-
-        const header = headerRef.current
-        const aboutImage = aboutImageRef.current
-        const aboutSection = aboutSectionRef.current
-
-        if (!header || !aboutSection) {
-          setHeaderLockTop(null)
-          return
-        }
-
-        const stopTarget = aboutImage || aboutSection
-        const stopTargetBottom = window.scrollY + stopTarget.getBoundingClientRect().bottom
-        const nextLockTop = Math.max(
-          0,
-          Math.round(stopTargetBottom - header.offsetHeight - HEADER_LOCK_EARLY_OFFSET),
-        )
-        const shouldLockHeader = window.scrollY >= nextLockTop
-
-        setHeaderLockTop((currentLockTop) => {
-          const resolvedLockTop = shouldLockHeader ? nextLockTop : null
-          return currentLockTop === resolvedLockTop ? currentLockTop : resolvedLockTop
-        })
-      })
+    if (!isMenuOpen) {
+      return undefined
     }
 
-    updateHeaderLock()
-    window.addEventListener('scroll', updateHeaderLock, { passive: true })
-    window.addEventListener('resize', updateHeaderLock)
+    const closeOnOutsidePress = (event) => {
+      if (!menuRef.current?.contains(event.target)) {
+        setIsMenuOpen(false)
+      }
+    }
+
+    const closeOnEscape = (event) => {
+      if (event.key === 'Escape') {
+        setIsMenuOpen(false)
+        menuButtonRef.current?.focus()
+      }
+    }
+
+    document.addEventListener('pointerdown', closeOnOutsidePress)
+    document.addEventListener('keydown', closeOnEscape)
 
     return () => {
-      if (frameId) {
-        window.cancelAnimationFrame(frameId)
-      }
-
-      window.removeEventListener('scroll', updateHeaderLock)
-      window.removeEventListener('resize', updateHeaderLock)
+      document.removeEventListener('pointerdown', closeOnOutsidePress)
+      document.removeEventListener('keydown', closeOnEscape)
     }
-  }, [])
-
-  const isHeaderLocked = headerLockTop !== null
+  }, [isMenuOpen])
 
   return (
     <main className="landing-page">
@@ -154,92 +125,114 @@ function App() {
         <span className="page-grid-line" />
         <span className="page-grid-line" />
         <span className="page-grid-line" />
-        <span className="page-grid-horizontal line-1" />
-        <span className="page-grid-horizontal line-2" />
       </div>
 
       <div className="page-content">
-        <header
-          ref={headerRef}
-          className={`site-header${isHeaderLocked ? ' is-scroll-locked' : ''}`}
-          style={isHeaderLocked ? { '--header-lock-top': `${headerLockTop}px` } : undefined}
-        >
-          <a className="brand-mark" href="#home" aria-label="Mayank Mittal home">
-            mayank<span aria-hidden="true">*</span>mtl
-          </a>
+        <header className="site-header">
+          <div className={`site-menu${isMenuOpen ? ' is-open' : ''}`} ref={menuRef}>
+            <button
+              className="site-menu-toggle"
+              type="button"
+              aria-expanded={isMenuOpen}
+              aria-controls="primary-menu"
+              onClick={() => setIsMenuOpen((isOpen) => !isOpen)}
+              ref={menuButtonRef}
+            >
+              <span className="site-menu-mark" aria-hidden="true">
+                <span />
+                <span />
+                <span />
+                <span />
+              </span>
+              <span>Menu</span>
+              <span className="site-menu-symbol" aria-hidden="true">
+                +
+              </span>
+            </button>
 
-          <nav className="site-nav" aria-label="Primary navigation">
-            {navItems.map((item) => (
-              <a key={item} href={`#${item.toLowerCase()}`}>
-                <RollText>({item})</RollText>
-              </a>
-            ))}
-          </nav>
-
-          <a className="availability" href="mailto:mittalmayank1977@gmail.com">
-            <span className="availability-star" aria-hidden="true">
-              <svg viewBox="0 0 24 24" focusable="false">
-                <path d="M12 1v22M1 12h22M4.22 4.22l15.56 15.56M19.78 4.22 4.22 19.78" />
-              </svg>
-            </span>
-            <span className="availability-text">Open to work</span>
-          </a>
+            <div className="site-menu-dropdown" id="primary-menu">
+              <nav className="site-menu-nav" aria-label="Primary navigation">
+                {navItems.map((item, index) => (
+                  <a
+                    key={item}
+                    href={`#${item.toLowerCase()}`}
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    <span>{String(index + 1).padStart(2, '0')}</span>
+                    <span>{item}</span>
+                  </a>
+                ))}
+              </nav>
+            </div>
+          </div>
         </header>
 
-        <section className="hero-section" id="home" aria-labelledby="hero-title">
-          <h1 id="hero-title" className="hero-title">
-            <span className="first-name">Mayank</span>
-            <span className="last-name">Mittal</span>
-          </h1>
+        <section className="hero-section" id="home" aria-labelledby="hero-name">
+          <div className="hero-copy-panel">
+            <h1 className="hero-name" id="hero-name" lang="hi" aria-label="मयंक">
+              <svg
+                className="hero-name-svg"
+                viewBox="0 0 960 360"
+                focusable="false"
+                aria-hidden="true"
+              >
+                <defs>
+                  <mask
+                    id="hero-name-write-mask"
+                    x="0"
+                    y="0"
+                    width="960"
+                    height="360"
+                    maskUnits="userSpaceOnUse"
+                  >
+                    <rect width="960" height="360" fill="black" />
+                    <path
+                      className="hero-name-mask-stroke hero-name-mask-stroke--main"
+                      d="M38 292 C70 148 132 58 244 82 C304 96 258 236 174 294 C262 260 312 92 448 92 C502 98 454 242 360 294 C452 264 508 70 602 82 C654 94 610 232 538 282 C630 242 706 66 886 98 C930 112 872 250 758 294"
+                      pathLength="1"
+                    />
+                    <path
+                      className="hero-name-mask-stroke hero-name-mask-stroke--headline"
+                      d="M72 88 C302 68 606 69 892 90"
+                      pathLength="1"
+                    />
+                    <rect
+                      className="hero-name-mask-finish"
+                      width="960"
+                      height="360"
+                      fill="white"
+                    />
+                  </mask>
+                </defs>
 
-          <TerminalIdentity />
+                <text
+                  className="hero-name-text hero-name-ink"
+                  x="480"
+                  y="282"
+                  textAnchor="middle"
+                  mask="url(#hero-name-write-mask)"
+                >
+                  मयंक
+                </text>
+              </svg>
+            </h1>
 
-          <div className="intro-block">
-            <span className="plus" aria-hidden="true">
-              *
-            </span>
-            <p>
-              <span className="intro-line intro-line--lead">
-                I <em>design</em>, I code, I overthink
-              </span>
-              <span className="intro-line intro-line--middle">
-                the hover effects-usually with
-              </span>
-              <span className="intro-line intro-line--long">
-                slow songs playing and a hazelnut
-              </span>
-              <span className="intro-line">
-                coffee getting <em>dangerously cold</em>.
-              </span>
-            </p>
+            <div className="hero-meta" aria-label="Portfolio information">
+              <p>Chandigarh, IN</p>
+              <p>Designing and building digital experiences</p>
+              <p>Portfolio' 2026</p>
+            </div>
           </div>
 
-          <div className="location-block">
-            <span className="plus" aria-hidden="true">
-              *
-            </span>
-            <p>
-              <span className="location-line">
-                <span className="location-spaced-word">Based in</span>
-                <em>Chandigarh</em>, turning rough
-              </span>
-              <span className="location-line">
-                <span className="location-spaced-word">ideas</span> into polished digital
-                experiences.
-              </span>
-              <span className="location-line">Currently exploring where design, code,</span>
-              <span className="location-line">
-                and <em>curiosity collide</em>.
-              </span>
-            </p>
-          </div>
-
-          <div
-            className="hero-portrait-wrap"
-            aria-label="Mayank Mittal portrait"
-            tabIndex={0}
-          >
-            <img className="hero-portrait" src={mayankCutout} alt="Mayank Mittal" />
+          <div className="hero-media-grid">
+            <figure className="hero-media-slot hero-media-slot--one" />
+            <figure className="hero-media-slot hero-media-slot--two" />
+            <figure className="hero-media-slot hero-media-slot--three" />
+            <figure className="hero-media-slot hero-media-slot--four" />
+            <figure className="hero-media-slot hero-media-slot--five" />
+            <figure className="hero-media-slot hero-media-slot--seven" />
+            <figure className="hero-media-slot hero-media-slot--eight" />
+            <figure className="hero-media-slot hero-media-slot--nine" />
           </div>
         </section>
 
@@ -288,17 +281,12 @@ function App() {
           </span>
         </section>
 
-        <section
-          ref={aboutSectionRef}
-          className="about-section"
-          id="about"
-          aria-labelledby="about-title"
-        >
+        <section className="about-section" id="about" aria-labelledby="about-title">
           <span className="about-outline" aria-hidden="true">
             About
           </span>
 
-          <div className="about-image-slot" ref={aboutImageRef}>
+          <div className="about-image-slot">
             <img src={aboutPhoto} alt="Mayank working on laptop" />
           </div>
 
