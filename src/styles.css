@@ -149,9 +149,9 @@ a {
 .site-nav {
   align-items: center;
   display: flex;
-  gap: clamp(48px, 4.05vw, 82px);
+  gap: clamp(42px, 3.6vw, 72px);
   justify-content: center;
-  transform: translateX(-4px);
+  transform: translateX(-0.075vw);
 }
 
 .site-nav a,
@@ -205,7 +205,11 @@ a {
   display: inline-flex;
   gap: 4px;
   justify-self: end;
-  transform: translateY(-0.05em);
+  transform: translateX(-14px);
+}
+
+.availability-text {
+  font-size: clamp(14px, 0.9vw, 18px);
 }
 
 .availability-star {
@@ -457,7 +461,7 @@ a {
   }
 }
 
-/* Portrait + cursor label */
+/* Portrait */
 
 .hero-portrait-wrap {
   left: 51.2%;
@@ -467,7 +471,6 @@ a {
   transform: translateX(-50%);
   width: clamp(280px, 32vw, 525px);
   z-index: 1;
-  cursor: none;
 }
 
 .hero-portrait {
@@ -476,44 +479,6 @@ a {
   height: auto;
   max-width: none;
   width: 100%;
-}
-
-.portrait-cursor-label {
-  background: #111111;
-  border-radius: 999px;
-  color: #f2f2f2;
-  font-family: "Space Grotesk", Inter, ui-sans-serif, system-ui, sans-serif;
-  font-size: clamp(12px, 0.82vw, 16px);
-  font-weight: 400;
-  letter-spacing: -0.055em;
-  line-height: 1;
-  opacity: 0;
-  padding: 8px 13px 9px;
-  pointer-events: none;
-  position: fixed;
-  transform: translate(14px, -115%) scale(0.9);
-  transform-origin: 10% 100%;
-  transition:
-    opacity 120ms ease,
-    transform 160ms cubic-bezier(0.2, 0.9, 0.2, 1.25);
-  white-space: nowrap;
-  z-index: 20;
-}
-
-.portrait-cursor-label::after {
-  background: #111111;
-  bottom: 0;
-  clip-path: polygon(0 0, 100% 100%, 8% 88%);
-  content: "";
-  height: 14px;
-  position: absolute;
-  right: 7px;
-  width: 20px;
-}
-
-.portrait-cursor-label.is-visible {
-  opacity: 1;
-  transform: translate(14px, -115%) scale(1);
 }
 
 /* ==========================================================================
@@ -600,6 +565,7 @@ a {
 }
 
 .work-card {
+  cursor: none;
   min-width: 0;
 }
 
@@ -622,6 +588,31 @@ a {
 
 .work-card:hover .work-visual img {
   transform: scale(1.035);
+}
+
+.work-cursor-label {
+  background: #3b3b3b;
+  border-radius: 999px;
+  color: #f7f7f7;
+  font-size: clamp(14px, 0.86vw, 18px);
+  font-weight: 400;
+  line-height: 1;
+  opacity: 0;
+  padding: 2px 8px 3px;
+  pointer-events: none;
+  position: fixed;
+  transform: translate(16px, -118%) scale(0.96);
+  transform-origin: 12% 100%;
+  transition:
+    opacity 120ms ease,
+    transform 180ms cubic-bezier(0.22, 1, 0.36, 1);
+  white-space: nowrap;
+  z-index: 20;
+}
+
+.work-cursor-label.is-visible {
+  opacity: 1;
+  transform: translate(16px, -118%) scale(1);
 }
 
 .work-card-details {

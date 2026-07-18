@@ -62,7 +62,7 @@ function RollText({ children }) {
 function App() {
   const [isAboutExpanded, setIsAboutExpanded] = useState(false)
   const [headerLockTop, setHeaderLockTop] = useState(null)
-  const [portraitLabel, setPortraitLabel] = useState({
+  const [workCursorLabel, setWorkCursorLabel] = useState({
     isVisible: false,
     x: 0,
     y: 0,
@@ -73,24 +73,24 @@ function App() {
   const aboutSectionRef = useRef(null)
   const contactSectionRef = useRef(null)
 
-  const showPortraitLabel = (event) => {
-    setPortraitLabel({
+  const showWorkCursorLabel = (event) => {
+    setWorkCursorLabel({
       isVisible: true,
       x: event.clientX,
       y: event.clientY,
     })
   }
 
-  const movePortraitLabel = (event) => {
-    setPortraitLabel((label) => ({
+  const moveWorkCursorLabel = (event) => {
+    setWorkCursorLabel((label) => ({
       ...label,
       x: event.clientX,
       y: event.clientY,
     }))
   }
 
-  const hidePortraitLabel = () => {
-    setPortraitLabel((label) => ({
+  const hideWorkCursorLabel = () => {
+    setWorkCursorLabel((label) => ({
       ...label,
       isVisible: false,
     }))
@@ -182,7 +182,7 @@ function App() {
                 <path d="M12 1v22M1 12h22M4.22 4.22l15.56 15.56M19.78 4.22 4.22 19.78" />
               </svg>
             </span>
-            Open to work
+            <span className="availability-text">Open to work</span>
           </a>
         </header>
 
@@ -237,24 +237,10 @@ function App() {
           <div
             className="hero-portrait-wrap"
             aria-label="Mayank Mittal portrait"
-            onPointerEnter={showPortraitLabel}
-            onPointerLeave={hidePortraitLabel}
-            onPointerMove={movePortraitLabel}
             tabIndex={0}
           >
             <img className="hero-portrait" src={mayankCutout} alt="Mayank Mittal" />
           </div>
-
-          <span
-            className={`portrait-cursor-label${portraitLabel.isVisible ? ' is-visible' : ''}`}
-            style={{
-              left: `${portraitLabel.x}px`,
-              top: `${portraitLabel.y}px`,
-            }}
-            aria-hidden="true"
-          >
-            Dont touch okay!!
-          </span>
         </section>
 
         <section className="works-section" id="works" aria-labelledby="works-title">
@@ -270,7 +256,13 @@ function App() {
 
           <div className="works-grid">
             {selectedWorks.map((project) => (
-              <article className="work-card" key={project.title}>
+              <article
+                className="work-card"
+                key={project.title}
+                onPointerEnter={showWorkCursorLabel}
+                onPointerLeave={hideWorkCursorLabel}
+                onPointerMove={moveWorkCursorLabel}
+              >
                 <figure className="work-visual">
                   <img src={project.image} alt={project.alt} />
                 </figure>
@@ -283,6 +275,17 @@ function App() {
               </article>
             ))}
           </div>
+
+          <span
+            className={`work-cursor-label${workCursorLabel.isVisible ? ' is-visible' : ''}`}
+            style={{
+              left: `${workCursorLabel.x}px`,
+              top: `${workCursorLabel.y}px`,
+            }}
+            aria-hidden="true"
+          >
+            (Read)
+          </span>
         </section>
 
         <section
