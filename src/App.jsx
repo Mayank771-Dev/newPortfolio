@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import aboutPhoto from './assets/snap.jpeg'
 import interfaceStudy from './assets/work-interface-study.png'
 import dashboardStudy from './assets/work-dashboard-study.png'
+import ProjectDetail from './ProjectDetail'
 
 const navItems = ['Home', 'Works', 'About', 'Contact']
 
@@ -25,22 +26,74 @@ const socialLinks = [
 
 const selectedWorks = [
   {
+    number: '01',
+    slug: 'email-emily',
     title: 'Email Emily',
     description: 'AI email builder for advancement professionals',
+    caseStudyDescription:
+      'Designing an AI email builder that replaced open-ended conversation with structured guidance',
+    duration: 'Q2 2025',
     discipline: 'Design + Development',
     year: '2025',
     image: interfaceStudy,
     alt: 'Layered grayscale browser interface mockups',
+    overviewTitle: 'From an empty prompt to a confident first draft.',
+    overview:
+      'Email Emily helps advancement professionals move from campaign context to a usable email draft through a focused, guided workflow. The experience keeps the speed of AI while giving people enough structure to understand, review, and shape what is being created.',
+    role: 'Product design, interaction design, and frontend',
+    toolkit: ['Product strategy', 'Interface design', 'React prototyping'],
+    challengeTitle: 'AI felt powerful, but the blank canvas slowed people down.',
+    challenge:
+      'An open-ended conversation asked users to know what to prompt, what context to include, and when a draft was ready. That flexibility created uncertainty in a workflow where clarity and accuracy matter.',
+    approachTitle: 'Turn the conversation into a guided, reviewable flow.',
+    approach:
+      'The redesigned experience breaks the task into deliberate choices, carries campaign context forward, and keeps the generated draft visible as something users can refine rather than simply accept.',
+    highlights: [
+      'A guided creation flow that reduces prompt-writing pressure.',
+      'Reusable campaign context that keeps every draft grounded.',
+      'Clear review and refinement states before an email is ready to use.',
+    ],
   },
   {
+    number: '02',
+    slug: 'navigation-redesign',
     title: 'Navigation Redesign',
     description: 'Designing SaaS navigation with scalable information architecture',
+    caseStudyDescription:
+      'Reframing SaaS navigation around clearer hierarchy, faster scanning, and room to grow',
+    duration: '2025',
     discipline: 'Product Design + Frontend',
     year: '2025',
     image: dashboardStudy,
     alt: 'Grayscale analytics dashboard displayed on a laptop',
+    overviewTitle: 'A navigation system designed for everyday orientation.',
+    overview:
+      'This redesign explores how a growing SaaS product can remain easy to understand as features, roles, and workflows expand. The system prioritizes recognizable groups, stable destinations, and a quieter interface that supports repeated use.',
+    role: 'Information architecture, product design, and frontend',
+    toolkit: ['Journey mapping', 'Navigation systems', 'Responsive UI'],
+    challengeTitle: 'Growth had made important destinations harder to find.',
+    challenge:
+      'As more tools entered the product, the navigation carried too many competing signals. Users had to remember where features lived instead of building a reliable mental model of the workspace.',
+    approachTitle: 'Build a hierarchy that can scale without feeling heavier.',
+    approach:
+      'Related tasks were grouped around user intent, labels were simplified, and responsive states were treated as one system. The resulting structure makes current workflows easier to scan while leaving space for future modules.',
+    highlights: [
+      'Intent-based groups that make destinations easier to predict.',
+      'Consistent expanded and compact states across screen sizes.',
+      'A restrained visual hierarchy that keeps the workspace in focus.',
+    ],
   },
 ]
+
+const caseStudyHashPrefix = '#case-study/'
+
+function getProjectSlugFromLocation() {
+  if (typeof window === 'undefined' || !window.location.hash.startsWith(caseStudyHashPrefix)) {
+    return null
+  }
+
+  return window.location.hash.slice(caseStudyHashPrefix.length)
+}
 
 function RollText({ children }) {
   return (
@@ -55,10 +108,60 @@ function RollText({ children }) {
   )
 }
 
+function SiteHeader({
+  isMenuOpen,
+  menuRef,
+  menuButtonRef,
+  onToggleMenu,
+  onNavigate,
+}) {
+  return (
+    <header className="site-header">
+      <div className={`site-menu${isMenuOpen ? ' is-open' : ''}`} ref={menuRef}>
+        <button
+          className="site-menu-toggle"
+          type="button"
+          aria-expanded={isMenuOpen}
+          aria-controls="primary-menu"
+          onClick={onToggleMenu}
+          ref={menuButtonRef}
+        >
+          <span className="site-menu-mark" aria-hidden="true">
+            <span />
+            <span />
+            <span />
+            <span />
+          </span>
+          <span>Menu</span>
+          <span className="site-menu-symbol" aria-hidden="true">
+            +
+          </span>
+        </button>
+
+        <div className="site-menu-dropdown" id="primary-menu">
+          <nav className="site-menu-nav" aria-label="Primary navigation">
+            {navItems.map((item, index) => (
+              <a
+                key={item}
+                href={`#${item.toLowerCase()}`}
+                onClick={(event) => onNavigate(event, item)}
+              >
+                <span>{String(index + 1).padStart(2, '0')}</span>
+                <span>{item}</span>
+              </a>
+            ))}
+          </nav>
+        </div>
+      </div>
+    </header>
+  )
+}
+
 function App() {
   const [isAboutExpanded, setIsAboutExpanded] = useState(false)
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isHeroNameReady, setIsHeroNameReady] = useState(false)
+  const [activeProjectSlug, setActiveProjectSlug] = useState(getProjectSlugFromLocation)
   const [workCursorLabel, setWorkCursorLabel] = useState({
     isVisible: false,
     x: 0,
@@ -69,6 +172,14 @@ function App() {
   const menuButtonRef = useRef(null)
   const contactSectionRef = useRef(null)
   const heroMediaRef = useRef(null)
+
+  const activeProjectIndex = selectedWorks.findIndex(
+    (project) => project.slug === activeProjectSlug,
+  )
+  const activeProject = activeProjectIndex >= 0 ? selectedWorks[activeProjectIndex] : null
+  const nextProject = activeProject
+    ? selectedWorks[(activeProjectIndex + 1) % selectedWorks.length]
+    : null
 
   const showWorkCursorLabel = (event) => {
     setWorkCursorLabel({
@@ -91,6 +202,44 @@ function App() {
       ...label,
       isVisible: false,
     }))
+  }
+
+  const openProject = (event, projectSlug) => {
+    event.preventDefault()
+
+    if (!selectedWorks.some((project) => project.slug === projectSlug)) {
+      return
+    }
+
+    hideWorkCursorLabel()
+    setIsMenuOpen(false)
+    window.history.pushState({ project: projectSlug }, '', `${caseStudyHashPrefix}${projectSlug}`)
+    setActiveProjectSlug(projectSlug)
+  }
+
+  const showPortfolioSection = (sectionId) => {
+    window.history.pushState(null, '', `#${sectionId}`)
+    setIsMenuOpen(false)
+    setActiveProjectSlug(null)
+  }
+
+  const returnToWorks = (event) => {
+    event.preventDefault()
+    showPortfolioSection('works')
+  }
+
+  const returnToContact = (event) => {
+    event.preventDefault()
+    showPortfolioSection('contact')
+  }
+
+  const handleMenuNavigation = (event, item) => {
+    setIsMenuOpen(false)
+
+    if (activeProjectSlug) {
+      event.preventDefault()
+      showPortfolioSection(item.toLowerCase())
+    }
   }
 
   useEffect(() => {
@@ -144,6 +293,43 @@ function App() {
   }, [isMenuOpen])
 
   useEffect(() => {
+    const syncProjectFromLocation = () => {
+      setActiveProjectSlug(getProjectSlugFromLocation())
+    }
+
+    window.addEventListener('hashchange', syncProjectFromLocation)
+    window.addEventListener('popstate', syncProjectFromLocation)
+
+    return () => {
+      window.removeEventListener('hashchange', syncProjectFromLocation)
+      window.removeEventListener('popstate', syncProjectFromLocation)
+    }
+  }, [])
+
+  useEffect(() => {
+    document.title = activeProject ? `${activeProject.title} | Mayank Mittal` : 'Mayank Mittal'
+
+    if (activeProject) {
+      document.documentElement.scrollTop = 0
+      document.body.scrollTop = 0
+      return
+    }
+
+    const sectionId = window.location.hash.slice(1)
+
+    if (!navItems.some((item) => item.toLowerCase() === sectionId)) {
+      return
+    }
+
+    window.requestAnimationFrame(() => {
+      document.getElementById(sectionId)?.scrollIntoView({
+        behavior: 'instant',
+        block: 'start',
+      })
+    })
+  }, [activeProject])
+
+  useEffect(() => {
     const mediaGallery = heroMediaRef.current
 
     if (!mediaGallery) {
@@ -162,7 +348,32 @@ function App() {
     return () => {
       mediaGallery.removeEventListener('wheel', preventGalleryScroll)
     }
-  }, [])
+  }, [activeProjectSlug])
+
+  const siteHeader = (
+    <SiteHeader
+      isMenuOpen={isMenuOpen}
+      menuRef={menuRef}
+      menuButtonRef={menuButtonRef}
+      onToggleMenu={() => setIsMenuOpen((isOpen) => !isOpen)}
+      onNavigate={handleMenuNavigation}
+    />
+  )
+
+  if (activeProject && nextProject) {
+    return (
+      <main className="case-study-page">
+        {siteHeader}
+        <ProjectDetail
+          project={activeProject}
+          nextProject={nextProject}
+          onBack={returnToWorks}
+          onContact={returnToContact}
+          onOpenProject={openProject}
+        />
+      </main>
+    )
+  }
 
   return (
     <main className="landing-page">
@@ -174,44 +385,7 @@ function App() {
           <span className="page-grid-line" />
         </div>
 
-        <header className="site-header">
-          <div className={`site-menu${isMenuOpen ? ' is-open' : ''}`} ref={menuRef}>
-            <button
-              className="site-menu-toggle"
-              type="button"
-              aria-expanded={isMenuOpen}
-              aria-controls="primary-menu"
-              onClick={() => setIsMenuOpen((isOpen) => !isOpen)}
-              ref={menuButtonRef}
-            >
-              <span className="site-menu-mark" aria-hidden="true">
-                <span />
-                <span />
-                <span />
-                <span />
-              </span>
-              <span>Menu</span>
-              <span className="site-menu-symbol" aria-hidden="true">
-                +
-              </span>
-            </button>
-
-            <div className="site-menu-dropdown" id="primary-menu">
-              <nav className="site-menu-nav" aria-label="Primary navigation">
-                {navItems.map((item, index) => (
-                  <a
-                    key={item}
-                    href={`#${item.toLowerCase()}`}
-                    onClick={() => setIsMenuOpen(false)}
-                  >
-                    <span>{String(index + 1).padStart(2, '0')}</span>
-                    <span>{item}</span>
-                  </a>
-                ))}
-              </nav>
-            </div>
-          </div>
-        </header>
+        {siteHeader}
 
         <section className="hero-section" aria-labelledby="hero-name">
           <div className="hero-copy-panel">
@@ -304,22 +478,25 @@ function App() {
 
           <div className="works-grid">
             {selectedWorks.map((project) => (
-              <article
-                className="work-card"
-                key={project.title}
-                onPointerEnter={showWorkCursorLabel}
-                onPointerLeave={hideWorkCursorLabel}
-                onPointerMove={moveWorkCursorLabel}
-              >
-                <figure className="work-visual">
-                  <img src={project.image} alt={project.alt} />
-                </figure>
-                <div className="work-card-details">
-                  <div className="work-title-copy">
-                    <h3>{project.title}</h3>
-                    <p className="work-description">{project.description}</p>
+              <article className="work-card" key={project.title}>
+                <a
+                  className="work-card-link"
+                  href={`${caseStudyHashPrefix}${project.slug}`}
+                  onClick={(event) => openProject(event, project.slug)}
+                  onPointerEnter={showWorkCursorLabel}
+                  onPointerLeave={hideWorkCursorLabel}
+                  onPointerMove={moveWorkCursorLabel}
+                >
+                  <figure className="work-visual">
+                    <img src={project.image} alt={project.alt} />
+                  </figure>
+                  <div className="work-card-details">
+                    <div className="work-title-copy">
+                      <h3>{project.title}</h3>
+                      <p className="work-description">{project.description}</p>
+                    </div>
                   </div>
-                </div>
+                </a>
               </article>
             ))}
           </div>
