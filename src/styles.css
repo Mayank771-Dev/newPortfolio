@@ -57,7 +57,7 @@ a {
   inset: 0;
   pointer-events: none;
   position: absolute;
-  z-index: 0;
+  z-index: 3;
 }
 
 .page-grid-line {
@@ -280,7 +280,20 @@ a {
 }
 
 .page-content {
+  isolation: isolate;
   position: relative;
+}
+
+.page-content::before {
+  background: var(--page);
+  bottom: 0;
+  content: "";
+  left: 0;
+  pointer-events: none;
+  position: absolute;
+  right: 0;
+  top: 100vh;
+  z-index: 2;
 }
 
 /* ==========================================================================
@@ -293,7 +306,8 @@ a {
   height: 100vh;
   min-height: 100vh;
   overflow: hidden;
-  position: relative;
+  position: sticky;
+  top: 0;
   z-index: 1;
 }
 
@@ -498,7 +512,7 @@ a {
   min-height: 122vh;
   overflow: hidden;
   position: relative;
-  z-index: 1;
+  z-index: 4;
 }
 
 .works-heading-stage {
@@ -694,7 +708,7 @@ a {
   overflow: hidden;
   padding: var(--contact-padding-top) clamp(8px, 0.8vw, 16px) var(--contact-footer-space);
   position: relative;
-  z-index: 1;
+  z-index: 4;
 }
 
 /* Contact title */
@@ -935,6 +949,7 @@ a {
   min-height: 100vh;
   position: relative;
   overflow: hidden;
+  z-index: 4;
 }
 
 /* About outline + image mask */

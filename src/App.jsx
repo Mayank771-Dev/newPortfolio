@@ -68,6 +68,7 @@ function App() {
   const menuRef = useRef(null)
   const menuButtonRef = useRef(null)
   const contactSectionRef = useRef(null)
+  const heroMediaRef = useRef(null)
 
   const showWorkCursorLabel = (event) => {
     setWorkCursorLabel({
@@ -142,16 +143,37 @@ function App() {
     }
   }, [isMenuOpen])
 
+  useEffect(() => {
+    const mediaGallery = heroMediaRef.current
+
+    if (!mediaGallery) {
+      return undefined
+    }
+
+    const desktopSplit = window.matchMedia('(min-width: 721px)')
+    const preventGalleryScroll = (event) => {
+      if (desktopSplit.matches) {
+        event.preventDefault()
+      }
+    }
+
+    mediaGallery.addEventListener('wheel', preventGalleryScroll, { passive: false })
+
+    return () => {
+      mediaGallery.removeEventListener('wheel', preventGalleryScroll)
+    }
+  }, [])
+
   return (
     <main className="landing-page">
-      <div className="page-grid" aria-hidden="true">
-        <span className="page-grid-line" />
-        <span className="page-grid-line" />
-        <span className="page-grid-line" />
-        <span className="page-grid-line" />
-      </div>
+      <div className="page-content" id="home">
+        <div className="page-grid" aria-hidden="true">
+          <span className="page-grid-line" />
+          <span className="page-grid-line" />
+          <span className="page-grid-line" />
+          <span className="page-grid-line" />
+        </div>
 
-      <div className="page-content">
         <header className="site-header">
           <div className={`site-menu${isMenuOpen ? ' is-open' : ''}`} ref={menuRef}>
             <button
@@ -191,7 +213,7 @@ function App() {
           </div>
         </header>
 
-        <section className="hero-section" id="home" aria-labelledby="hero-name">
+        <section className="hero-section" aria-labelledby="hero-name">
           <div className="hero-copy-panel">
             <h1
               className={`hero-name${isHeroNameReady ? ' is-ready' : ''}`}
@@ -257,7 +279,7 @@ function App() {
             </div>
           </div>
 
-          <div className="hero-media-grid">
+          <div className="hero-media-grid" ref={heroMediaRef}>
             <figure className="hero-media-slot hero-media-slot--one" />
             <figure className="hero-media-slot hero-media-slot--two" />
             <figure className="hero-media-slot hero-media-slot--three" />
@@ -360,67 +382,67 @@ function App() {
             </p>
           </div>
         </section>
-      </div>
 
-      <section
-        ref={contactSectionRef}
-        className="contact-section"
-        id="contact"
-        aria-labelledby="contact-title"
-      >
-        <div className="contact-copy">
-          <h2 id="contact-title">Let's talk</h2>
+        <section
+          ref={contactSectionRef}
+          className="contact-section"
+          id="contact"
+          aria-labelledby="contact-title"
+        >
+          <div className="contact-copy">
+            <h2 id="contact-title">Let's talk</h2>
 
-          <div className="contact-details" aria-label="Contact details">
-            <div className="contact-detail-group">
-              <p className="contact-label">/ General enquiries</p>
-              <a href="mailto:mittalmayank1977@gmail.com">mittalmayank1977@gmail.com</a>
-            </div>
+            <div className="contact-details" aria-label="Contact details">
+              <div className="contact-detail-group">
+                <p className="contact-label">/ General enquiries</p>
+                <a href="mailto:mittalmayank1977@gmail.com">mittalmayank1977@gmail.com</a>
+              </div>
 
-            <div className="contact-detail-group">
-              <p className="contact-label">/ Location</p>
-              <p>
-                Chandigarh, India
-                <br />
-                Available for freelance projects,
-                <br />
-                collaborations, and curious ideas.
-              </p>
-            </div>
+              <div className="contact-detail-group">
+                <p className="contact-label">/ Location</p>
+                <p>
+                  Chandigarh, India
+                  <br />
+                  Available for freelance projects,
+                  <br />
+                  collaborations, and curious ideas.
+                </p>
+              </div>
 
-            <div className="contact-socials" aria-label="Social links">
-              <p className="contact-label">/ Socials</p>
-              <div className="contact-social-links">
-                {socialLinks.map((link) => (
-                  <a key={link.label} href={link.href} target="_blank" rel="noreferrer">
-                    {link.label}
-                  </a>
-                ))}
+              <div className="contact-socials" aria-label="Social links">
+                <p className="contact-label">/ Socials</p>
+                <div className="contact-social-links">
+                  {socialLinks.map((link) => (
+                    <a key={link.label} href={link.href} target="_blank" rel="noreferrer">
+                      {link.label}
+                    </a>
+                  ))}
+                </div>
               </div>
             </div>
+
+            <div className="contact-resume-actions">
+              <a href={resumeUrl} target="_blank" rel="noreferrer">
+                <RollText>Curriculum Vitae</RollText>
+              </a>
+            </div>
           </div>
 
-          <div className="contact-resume-actions">
-            <a href={resumeUrl} target="_blank" rel="noreferrer">
-              <RollText>The Story So Far</RollText>
-            </a>
-          </div>
-        </div>
+          <figure className="contact-image-card" aria-label="Portfolio memory card">
+            <img src={aboutPhoto} alt="Mayank working on laptop" />
+            <figcaption>
+              <span>Memories</span>
+              <span>Chandigarh, IN</span>
+            </figcaption>
+          </figure>
 
-        <figure className="contact-image-card" aria-label="Portfolio memory card">
-          <img src={aboutPhoto} alt="Mayank working on laptop" />
-          <figcaption>
-            <span>Memories</span>
-            <span>Chandigarh, IN</span>
-          </figcaption>
-        </figure>
-
-        <footer className="contact-footer">
-          <p className="footer-credit">
-            Thanks for stopping by. Made with love 🤍 by Mayank Mittal
-          </p>
-        </footer>
-      </section>
+          <footer className="contact-footer">
+            <p className="footer-credit">
+              Thanks for stopping by. Made with love 🤍 by Mayank Mittal
+            </p>
+          </footer>
+        </section>
+      </div>
     </main>
   )
 }
