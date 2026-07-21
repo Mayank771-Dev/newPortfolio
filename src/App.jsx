@@ -473,7 +473,7 @@ function App() {
               Selected
             </span>
             <div className="works-heading">
-              <p>2022-2025</p>
+              <p>2022-2026</p>
               <h2 id="works-title">Works</h2>
             </div>
           </div>
