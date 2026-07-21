@@ -33,6 +33,7 @@ const selectedWorks = [
     caseStudyDescription:
       'Designing an AI email builder that replaced open-ended conversation with structured guidance',
     duration: 'Q2 2025',
+    liveUrl: '',
     discipline: 'Design + Development',
     year: '2025',
     image: interfaceStudy,
@@ -62,6 +63,7 @@ const selectedWorks = [
     caseStudyDescription:
       'Reframing SaaS navigation around clearer hierarchy, faster scanning, and room to grow',
     duration: '2025',
+    liveUrl: '',
     discipline: 'Product Design + Frontend',
     year: '2025',
     image: dashboardStudy,

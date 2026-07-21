@@ -1,4 +1,17 @@
 function ProjectDetail({ project, nextProject, onBack, onContact, onOpenProject }) {
+  const overviewSectionId = `${project.slug}-overview-section`
+  const overviewHeadingId = `${project.slug}-overview`
+  const scrollCuePathId = `${project.slug}-scroll-cue-path`
+
+  const scrollToOverview = () => {
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+
+    document.getElementById(overviewSectionId)?.scrollIntoView({
+      behavior: prefersReducedMotion ? 'auto' : 'smooth',
+      block: 'start',
+    })
+  }
+
   return (
     <>
       <div className="case-study-grid" aria-hidden="true">
@@ -22,21 +35,62 @@ function ProjectDetail({ project, nextProject, onBack, onContact, onOpenProject 
               <p className="case-study-duration">{project.duration}</p>
               <p className="case-study-description">{project.caseStudyDescription}</p>
             </div>
+            <a
+              className="case-study-live-link"
+              href={project.liveUrl || undefined}
+              target={project.liveUrl ? '_blank' : undefined}
+              rel={project.liveUrl ? 'noreferrer' : undefined}
+              aria-disabled={!project.liveUrl}
+            >
+              <span>View live project</span>
+              <span className="case-study-live-arrow" aria-hidden="true">
+                &#8599;
+              </span>
+            </a>
           </div>
+
+          <button
+            className="case-study-scroll-cue"
+            type="button"
+            aria-label="Scroll to project overview"
+            onClick={scrollToOverview}
+          >
+            <svg viewBox="0 0 120 120" aria-hidden="true">
+              <defs>
+                <path
+                  id={scrollCuePathId}
+                  d="M 13 80 A 52 52 0 0 1 107 80"
+                />
+              </defs>
+              <text>
+                <textPath
+                  href={`#${scrollCuePathId}`}
+                  startOffset="50%"
+                  textAnchor="middle"
+                >
+                  Explore project
+                </textPath>
+              </text>
+            </svg>
+            <span className="case-study-scroll-arrows" aria-hidden="true">
+              <span>&#8595;</span>
+              <span>&#8595;</span>
+            </span>
+          </button>
         </header>
 
-        <section className="case-study-showcase" aria-labelledby={`${project.slug}-overview`}>
+        <section
+          className="case-study-showcase"
+          id={overviewSectionId}
+          aria-labelledby={overviewHeadingId}
+        >
           <figure className="case-study-visual">
             <img src={project.image} alt={project.alt} />
-            <figcaption>
-              <span>{project.title}</span>
-              <span>{project.year}</span>
-            </figcaption>
           </figure>
 
           <div className="case-study-overview">
             <p className="case-study-label">/ Overview</p>
-            <h2 id={`${project.slug}-overview`}>{project.overviewTitle}</h2>
+            <h2 id={overviewHeadingId}>{project.overviewTitle}</h2>
             <p className="case-study-overview-copy">{project.overview}</p>
 
             <div className="case-study-specs">
