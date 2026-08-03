@@ -568,52 +568,88 @@ function App() {
           id="contact"
           aria-labelledby="contact-title"
         >
-          <div className="contact-copy">
-            <h2 id="contact-title">Let's talk</h2>
+          <div className="contact-stage">
+            <h2 id="contact-title" aria-label="Contact us">
+              <span aria-hidden="true">Contact</span>
+              <span aria-hidden="true">us</span>
+            </h2>
 
-            <div className="contact-details" aria-label="Contact details">
-              <div className="contact-detail-group">
-                <p className="contact-label">/ General enquiries</p>
-                <a href="mailto:mittalmayank1977@gmail.com">mittalmayank1977@gmail.com</a>
-              </div>
+            <div className="contact-portrait-slot" aria-hidden="true">
+              {/* Add the transparent contact portrait here. */}
+            </div>
 
-              <div className="contact-detail-group">
-                <p className="contact-label">/ Location</p>
+            <div className="contact-details-grid" aria-label="Contact details">
+              <div className="contact-intro">
                 <p>
-                  Chandigarh, India
-                  <br />
-                  Available for freelance projects,
-                  <br />
-                  collaborations, and curious ideas.
+                  For general enquiries, collaborations, or just to say hello, email me at{' '}
+                  <a href="mailto:mittalmayank1977@gmail.com">
+                    mittalmayank1977@gmail.com
+                  </a>
+                  . You can also find me on{' '}
+                  {socialLinks.map((link, index) => (
+                    <span key={link.label}>
+                      <a href={link.href} target="_blank" rel="noreferrer">
+                        {link.label}
+                      </a>
+                      {index === socialLinks.length - 1
+                        ? '.'
+                        : index === socialLinks.length - 2
+                          ? ', and '
+                          : ', '}
+                    </span>
+                  ))}
                 </p>
               </div>
 
-              <div className="contact-socials" aria-label="Social links">
-                <p className="contact-label">/ Socials</p>
-                <div className="contact-social-links">
-                  {socialLinks.map((link) => (
-                    <a key={link.label} href={link.href} target="_blank" rel="noreferrer">
-                      {link.label}
-                    </a>
-                  ))}
+              <div className="contact-directory" aria-label="Roots and creative outlook">
+                <div className="contact-directory-item">
+                  <h3>Rooted</h3>
+                  <p>
+                    Sri Ganganagar, Rajasthan
+                    <br />
+                    29.9201° N · 73.8750° E
+                  </p>
+                </div>
+
+                <div className="contact-directory-item">
+                  <h3>Always</h3>
+                  <p>
+                    Open to ideas with a pulse,
+                    <br />
+                    collaborators with conviction,
+                    <br />
+                    and details worth obsessing over.
+                  </p>
                 </div>
               </div>
-            </div>
 
-            <div className="contact-resume-actions">
-              <a href={resumeUrl} target="_blank" rel="noreferrer">
-                <RollText>Curriculum Vitae</RollText>
-              </a>
+              <div className="contact-faq-panel">
+                <h3 className="contact-faq-title">
+                  Frequently <span className="contact-faq-grid-mask">Asked</span>
+                  <br />
+                  Questions
+                </h3>
+
+                <details className="contact-faq-item">
+                  <summary>
+                    <span>Where can I view your resume?</span>
+                    <span className="contact-faq-toggle" aria-hidden="true">
+                      <span className="contact-faq-plus">+</span>
+                      <span className="contact-faq-minus">-</span>
+                    </span>
+                  </summary>
+
+                  <div className="contact-faq-answer">
+                    <p>
+                      <a href={resumeUrl} target="_blank" rel="noreferrer">
+                        MAYANK MITTAL / RESUME.PDF / VIEW + DOWNLOAD
+                      </a>
+                    </p>
+                  </div>
+                </details>
+              </div>
             </div>
           </div>
-
-          <figure className="contact-image-card" aria-label="Portfolio memory card">
-            <img src={aboutPhoto} alt="Mayank working on laptop" />
-            <figcaption>
-              <span>Memories</span>
-              <span>Chandigarh, IN</span>
-            </figcaption>
-          </figure>
 
           <footer className="contact-footer">
             <p className="footer-credit">
